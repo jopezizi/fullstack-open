@@ -22,7 +22,7 @@ const App = () => {
       <Button text= "good" handler= {increasegood}/>
       <Button text= "neutral" handler= {increaseneutral}/>
       <Button text= "bad" handler= {increasebad}/>
-
+      <h1>{parts.headers[2]}</h1>
       <Statistics good={good} neutral={neutral} bad={bad}/>  
     </div>
   )
@@ -45,20 +45,23 @@ const Statistics = (props) => {
     return <p>No feedback given</p>
   }
   return (
-    <div>
+    <table>
       <StatisticLine text="good" value={props.good} />
       <StatisticLine text="neutral" value={props.neutral}/>
       <StatisticLine text="bad" value={props.bad} />
       <StatisticLine text="all" value={all} />
       <StatisticLine text="average" value={(props.good * 1 + props.neutral * 0 + props.bad * (-1))/(all)} />
-      <StatisticLine text="positive" value={(props.good / (all))+' %'}/>
-    </div>
+      <StatisticLine text="positive" value={(props.good / (all))*100+' %'}/>
+    </table>
   )
 }
 
 const StatisticLine = (props) => {
   return (
-    <p>{props.text} {props.value}</p>
+      <tr>
+        <td>{props.text}</td>
+        <td>{props.value}</td>
+      </tr>
   )
 }
 
