@@ -13,11 +13,38 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
-  const next = () => setSelected(Math.floor(Math.random() * anecdotes.length))
+
+  const next = () => {
+    setSelected (current => {
+    let random = Math.floor(Math.random() * anecdotes.length)
+    if (random == current) {
+      random = (current + 1) % anecdotes.length
+    }
+      return random
+  })
+  }
+  
+  const [votes, setVotes] = useState(
+    new Array(anecdotes.length).fill(0)
+  )
+
+  const vote = () => {
+    setVotes (current => {
+    const copy = [...current]
+    copy[selected] += 1
+    return copy
+  })
+} 
   return (
     <div>
-      <p>{anecdotes[selected]}</p>
-      <Button handler = {next}/>
+      <p>
+        {anecdotes[selected]}
+        <br />
+        has {votes[selected]} votes
+        <br />
+      <Button handler = {vote} text='vote'/>
+      <Button handler = {next} text='next anecdote'/>
+            </p>
     </div>
   )
 }
@@ -25,8 +52,9 @@ const App = () => {
 const Button = (props) => {
   return (
     <button onClick = {props.handler}>
-      next
+      {props.text}
     </button>
   )
 }
 export default App
+
